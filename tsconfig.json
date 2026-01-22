@@ -1,0 +1,7 @@
+{
+  "extends": "./front/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "./front"
+  }
+}
+
