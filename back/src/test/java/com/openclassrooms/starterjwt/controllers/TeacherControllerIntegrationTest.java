@@ -1,6 +1,7 @@
 package com.openclassrooms.starterjwt.controllers;
 
 import com.openclassrooms.starterjwt.models.Teacher;
+import com.openclassrooms.starterjwt.repository.SessionRepository;
 import com.openclassrooms.starterjwt.repository.TeacherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -28,10 +29,14 @@ class TeacherControllerIntegrationTest {
     @Autowired
     private TeacherRepository teacherRepository;
 
+    @Autowired
+    private SessionRepository sessionRepository;
+
     private Teacher teacher;
 
     @BeforeEach
     void setUp() {
+        sessionRepository.deleteAll(); // Supprimer les sessions d'abord (clé étrangère)
         teacherRepository.deleteAll();
 
         teacher = new Teacher();
