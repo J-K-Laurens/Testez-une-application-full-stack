@@ -1,0 +1,12 @@
+# Scripts de configuration locale
+setup-env.ps1
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
