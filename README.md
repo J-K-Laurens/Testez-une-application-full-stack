@@ -160,4 +160,3 @@ npm run e2e:coverage
 
 - **Collection Postman** : `ressources/postman/yoga.postman_collection.json`
 - **Script SQL** : `ressources/sql/script.sql`
-
