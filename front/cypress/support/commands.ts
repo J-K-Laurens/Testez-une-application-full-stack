@@ -66,15 +66,23 @@
     cy.wait('@getSessions');
   };
 
-  export const loginAsUser = () => {
+  export const loginAsUser = (customSessions = mockSessions) => {
     cy.visit('/login');
     cy.intercept('POST', '/api/auth/login', {
       statusCode: 200,
       body: { id: 2, username: 'user@studio.com', firstName: 'Regular', lastName: 'User', admin: false }
     }).as('loginUser');
-    cy.intercept('GET', '/api/session', mockSessions).as('getSessions');
+    cy.intercept('GET', '/api/session', customSessions).as('getSessions');
     cy.get('input[formControlName=email]').type('user@studio.com');
     cy.get('input[formControlName=password]').type('password123{enter}{enter}');
     cy.wait('@loginUser');
     cy.wait('@getSessions');
+  };
+
+  // ==================== Commandes : MOCKS 404 ====================
+  export const mock404 = (url: string, message = 'Resource not found') => {
+    cy.intercept('GET', url, {
+      statusCode: 404,
+      body: { message }
+    }).as('notFound404');
   };

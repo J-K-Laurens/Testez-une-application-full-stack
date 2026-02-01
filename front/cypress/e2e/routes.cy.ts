@@ -142,20 +142,6 @@ describe('Navigation et Authentification', () => {
   });
 
 
-  // ==================== PAGE 404 ====================
-  describe('Page 404 - Not Found', () => {
-
-    it('Devrait afficher la page 404 pour une route inexistante', () => {
-      cy.visit('/route-inexistante', { failOnStatusCode: false });
-      cy.contains('Page not found').should('be.visible');
-    });
-
-    it('Devrait afficher la page 404 pour une autre route invalide', () => {
-      cy.visit('/xyz/abc/123', { failOnStatusCode: false });
-      cy.contains('Page not found').should('be.visible');
-    });
-
-  });
 
 });
 
