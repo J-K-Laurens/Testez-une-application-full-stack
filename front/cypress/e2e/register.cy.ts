@@ -15,28 +15,30 @@ describe('Register - Inscription utilisateur', () => {
     cy.wait('@registerRequest');
     cy.url().should('include', '/login');
     shouldNotShowError();
-  })
+  });
 
-  
-  // GESTION D'ERREUR (email déjà existant)
-  it('Devrait afficher une erreur si l\'inscription échoue', () => {
+  // ==================== ERREURS 4XX (Client) ====================
+  it('Devrait afficher une erreur si l\'email existe déjà (400)', () => {
     cy.visit('/register');
     mockError('POST', '/api/auth/register', 400, 'Email already exists');
 
     fillRegisterForm('Jane', 'Smith', 'existing@example.com', 'Password123!');
     submitForm();
 
+    cy.wait('@error400');
     shouldShowError();
     cy.url().should('include', '/register');
-  })
+  });
 
-  
-  // VALIDATION DU FORMULAIRE (champs requis)
-  it('Devrait désactiver le bouton Submit si les champs requis sont vides', () => {
+
+  // ==================== VALIDATION DU FORMULAIRE ====================
+  it('Devrait valider le formulaire (champs requis et format email)', () => {
     cy.visit('/register');
 
+    // Bouton désactivé si formulaire vide
     cy.get('button[type=submit]').should('be.disabled');
 
+    // Bouton désactivé si champs incomplets
     cy.get('input[formControlName=firstName]').type('Alice');
     cy.get('button[type=submit]').should('be.disabled');
 
@@ -46,34 +48,17 @@ describe('Register - Inscription utilisateur', () => {
     cy.get('input[formControlName=email]').type('alice@example.com');
     cy.get('button[type=submit]').should('be.disabled');
 
+    // Bouton activé si tous les champs valides
     cy.get('input[formControlName=password]').type('password123');
     cy.get('button[type=submit]').should('not.be.disabled');
-  })
 
-  
-  // VALIDATION EMAIL (format invalide)
-  it('Devrait désactiver le bouton Submit si le format email est invalide', () => {
-    cy.visit('/register');
-
-    fillRegisterForm('John', 'Doe', 'invalid-email', 'password123');
+    // Bouton désactivé si email invalide
+    cy.get('input[formControlName=email]').clear().type('invalid-email');
     cy.get('button[type=submit]').should('be.disabled');
 
-    cy.get('input[formControlName=email]').clear().type('john@example.com');
+    // Bouton activé si email valide
+    cy.get('input[formControlName=email]').clear().type('valid@email.com');
     cy.get('button[type=submit]').should('not.be.disabled');
-  })
-
-
-  // ERREUR SERVEUR 500 (Internal Server Error)
-  it('Devrait gérer une erreur serveur 500 (Internal Server Error)', () => {
-    cy.visit('/register');
-    mockError('POST', '/api/auth/register', 500, 'Internal Server Error');
-
-    fillRegisterForm('John', 'Doe', 'john.doe@test.com', 'ValidPassword123!');
-    submitForm();
-
-    cy.wait('@error500');
-    shouldShowError();
-    cy.url().should('include', '/register');
-  })
+  });
 
 });

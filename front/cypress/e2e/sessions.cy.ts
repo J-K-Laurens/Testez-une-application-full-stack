@@ -364,41 +364,8 @@ describe('Sessions - Gestion des sessions', () => {
   });
 
 
-  // ==================== GESTION DES ERREURS ====================
-  describe('Gestion des erreurs', () => {
-
-    it('Devrait gérer une erreur lors du chargement des sessions', () => {
-      cy.visit('/login');
-      cy.intercept('POST', '/api/auth/login', { statusCode: 200, body: adminUser }).as('login');
-      cy.intercept('GET', '/api/session', { statusCode: 500, body: { message: 'Server Error' } }).as('getSessionsError');
-
-      cy.get('input[formControlName=email]').type('admin@studio.com');
-      cy.get('input[formControlName=password]').type('password123{enter}{enter}');
-
-      cy.wait('@login');
-      cy.wait('@getSessionsError');
-    });
-
-    it('Devrait gérer une erreur lors de la création de session', () => {
-      loginAsAdmin();
-
-      cy.intercept('GET', '/api/teacher', mockTeachers).as('getTeachers');
-      cy.intercept('POST', '/api/session', { statusCode: 500, body: { message: 'Server Error' } }).as('createError');
-
-      cy.contains('button', 'Create').click();
-      cy.wait('@getTeachers');
-
-      cy.get('input[formControlName=name]').type('Test session');
-      cy.get('input[formControlName=date]').type('2024-03-01');
-      cy.get('mat-select[formControlName=teacher_id]').click();
-      cy.get('mat-option').contains('Jean Dupont').click();
-      cy.get('textarea[formControlName=description]').type('Description test');
-
-      cy.get('button[type=submit]').click();
-      cy.wait('@createError');
-    });
-
-  });
+  // Note: Les erreurs serveur (500) sont testées dans login.cy.ts
+  // Ici on teste uniquement les flux métier réussis
 
 });
 

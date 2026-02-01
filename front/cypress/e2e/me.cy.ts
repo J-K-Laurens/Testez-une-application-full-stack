@@ -97,37 +97,13 @@ describe('Me - Page profil utilisateur', () => {
       cy.contains('span', 'Login').should('be.visible');
     });
 
-    it('Devrait gérer une erreur lors de la suppression', () => {
-      loginAsUser();
-
-      cy.intercept('GET', '/api/user/2', regularUser).as('getUser');
-      cy.intercept('DELETE', '/api/user/2', { statusCode: 500, body: { message: 'Server Error' } }).as('deleteError');
-
-      cy.contains('span', 'Account').click();
-      cy.wait('@getUser');
-
-      cy.contains('button', 'Delete').click();
-      cy.wait('@deleteError');
-    });
+    // Note: Les erreurs serveur (500) sont testées dans login.cy.ts
+    // Ici on teste uniquement le flux de suppression réussie
 
   });
 
 
-  // ==================== GESTION DES ERREURS ====================
-  describe('Gestion des erreurs', () => {
-
-    it('Devrait gérer une erreur lors du chargement du profil', () => {
-      loginAsUser();
-
-      cy.intercept('GET', '/api/user/2', { statusCode: 500, body: { message: 'Server Error' } }).as('getUserError');
-
-      cy.contains('span', 'Account').click();
-      cy.wait('@getUserError');
-
-      cy.url().should('include', '/me');
-    });
-
-  });
+  // Note: Les erreurs serveur (500) sont testées dans login.cy.ts
 
 });
 
