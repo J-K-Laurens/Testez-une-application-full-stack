@@ -1,5 +1,3 @@
-import { adminUser, mockSessions } from '../support/commands';
-
 describe('Navigation et Authentification', () => {
 
   // ==================== PAGE D'ACCUEIL ====================

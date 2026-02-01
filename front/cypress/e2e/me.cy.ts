@@ -1,5 +1,3 @@
-import { loginAsAdmin, loginAsUser, adminUser, regularUser } from '../support/commands';
-
 describe('Me - Page profil utilisateur', () => {
 
   // ==================== AFFICHAGE PROFIL ADMIN ====================

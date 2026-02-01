@@ -1,5 +1,3 @@
-import { loginAsAdmin, loginAsUser, adminUser, mockSessions, mockTeachers } from '../support/commands';
-
 describe('Sessions - Gestion des sessions', () => {
 
   // ==================== LISTE DES SESSIONS ====================

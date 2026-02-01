@@ -1,6 +1,4 @@
-import { loginAsAdmin, loginAsUser, mock404 } from '../support/commands';
-
-  // =========================== PAGE 404 ===========================
+// =========================== PAGE 404 ===========================
   // ==================== Coté Client ====================
   describe('Page 404 - Not Found', () => {
     it('Devrait afficher la page 404 pour une route inexistante', () => {
