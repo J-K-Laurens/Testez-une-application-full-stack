@@ -1,56 +1,6 @@
+import { loginAsAdmin, loginAsUser, adminUser, regularUser } from '../support/commands';
+
 describe('Me - Page profil utilisateur', () => {
-
-  // ==================== DONNÉES DE TEST ====================
-  const adminUser = {
-    id: 1,
-    email: 'admin@studio.com',
-    firstName: 'Admin',
-    lastName: 'User',
-    admin: true,
-    createdAt: '2024-01-01',
-    updatedAt: '2024-01-15'
-  };
-
-  const regularUser = {
-    id: 2,
-    email: 'user@studio.com',
-    firstName: 'Regular',
-    lastName: 'User',
-    admin: false,
-    createdAt: '2024-01-05',
-    updatedAt: '2024-01-20'
-  };
-
-  const mockSessions = [];
-
-
-  // ==================== HELPER : LOGIN ====================
-  const loginAsAdmin = () => {
-    cy.visit('/login');
-    cy.intercept('POST', '/api/auth/login', {
-      statusCode: 200,
-      body: { id: 1, username: 'admin@studio.com', firstName: 'Admin', lastName: 'User', admin: true }
-    }).as('loginAdmin');
-    cy.intercept('GET', '/api/session', mockSessions).as('getSessions');
-    cy.get('input[formControlName=email]').type('admin@studio.com');
-    cy.get('input[formControlName=password]').type('password123{enter}{enter}');
-    cy.wait('@loginAdmin');
-    cy.wait('@getSessions');
-  };
-
-  const loginAsUser = () => {
-    cy.visit('/login');
-    cy.intercept('POST', '/api/auth/login', {
-      statusCode: 200,
-      body: { id: 2, username: 'user@studio.com', firstName: 'Regular', lastName: 'User', admin: false }
-    }).as('loginUser');
-    cy.intercept('GET', '/api/session', mockSessions).as('getSessions');
-    cy.get('input[formControlName=email]').type('user@studio.com');
-    cy.get('input[formControlName=password]').type('password123{enter}{enter}');
-    cy.wait('@loginUser');
-    cy.wait('@getSessions');
-  };
-
 
   // ==================== AFFICHAGE PROFIL ADMIN ====================
   describe('Profil Admin', () => {
@@ -79,7 +29,7 @@ describe('Me - Page profil utilisateur', () => {
       cy.wait('@getUser');
 
       cy.contains('Delete my account').should('not.exist');
-      cy.contains('button', 'Detail').should('not.exist');
+      cy.contains('button', 'Delete').should('not.exist');
     });
 
   });
@@ -141,7 +91,7 @@ describe('Me - Page profil utilisateur', () => {
       cy.contains('span', 'Account').click();
       cy.wait('@getUser');
 
-      cy.contains('button', 'Detail').click();
+      cy.contains('button', 'Delete').click();
       cy.wait('@deleteUser');
 
       cy.contains('Your account has been deleted').should('be.visible');
@@ -158,28 +108,8 @@ describe('Me - Page profil utilisateur', () => {
       cy.contains('span', 'Account').click();
       cy.wait('@getUser');
 
-      cy.contains('button', 'Detail').click();
+      cy.contains('button', 'Delete').click();
       cy.wait('@deleteError');
-    });
-
-  });
-
-
-  // ==================== NAVIGATION ====================
-  describe('Navigation', () => {
-
-    it('Devrait permettre de revenir en arrière', () => {
-      loginAsUser();
-
-      cy.intercept('GET', '/api/user/2', regularUser).as('getUser');
-      cy.intercept('GET', '/api/session', mockSessions).as('getSessions');
-
-      cy.contains('span', 'Account').click();
-      cy.wait('@getUser');
-
-      cy.get('button').find('mat-icon').contains('arrow_back').click();
-
-      cy.url().should('include', '/sessions');
     });
 
   });

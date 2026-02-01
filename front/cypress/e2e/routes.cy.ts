@@ -1,27 +1,6 @@
+import { adminUser, mockSessions } from '../support/commands';
+
 describe('Navigation et Authentification', () => {
-
-  // ==================== DONNÉES DE TEST ====================
-  const adminUser = {
-    id: 1,
-    username: 'admin@studio.com',
-    firstName: 'Admin',
-    lastName: 'User',
-    admin: true
-  };
-
-  const mockSessions = [
-    {
-      id: 1,
-      name: 'Yoga matinal',
-      description: 'Session de yoga',
-      date: '2024-02-15',
-      teacher_id: 1,
-      users: [],
-      createdAt: '2024-01-01',
-      updatedAt: '2024-01-10'
-    }
-  ];
-
 
   // ==================== PAGE D'ACCUEIL ====================
   describe('Page d\'accueil (non connecté)', () => {
