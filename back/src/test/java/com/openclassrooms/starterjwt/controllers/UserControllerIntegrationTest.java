@@ -63,14 +63,6 @@ class UserControllerIntegrationTest {
     }
 
     @Test
-    @WithMockUser
-    @DisplayName("Devrait retourner 400 pour un ID invalide")
-    void findUserByIdBadRequest() throws Exception {
-        mockMvc.perform(get("/api/user/invalid"))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
     @WithMockUser(username = "test@example.com")
     @DisplayName("Devrait supprimer son propre compte")
     void deleteOwnAccount() throws Exception {

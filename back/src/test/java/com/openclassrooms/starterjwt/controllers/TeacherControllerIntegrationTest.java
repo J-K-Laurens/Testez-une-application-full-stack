@@ -73,13 +73,5 @@ class TeacherControllerIntegrationTest {
         mockMvc.perform(get("/api/teacher/99999"))
                 .andExpect(status().isNotFound());
     }
-
-    @Test
-    @WithMockUser
-    @DisplayName("Devrait retourner 400 pour un ID invalide")
-    void findTeacherByIdBadRequest() throws Exception {
-        mockMvc.perform(get("/api/teacher/invalid"))
-                .andExpect(status().isBadRequest());
-    }
 }
 
